@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class AccelerationActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acceleration);
 
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         SensorManager manager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometerAdapter = new AccelerometerAdapter(manager);
         thread = new GraphThread(accelerometerAdapter);
@@ -33,6 +37,17 @@ public class AccelerationActivity extends AppCompatActivity{
         super.onDestroy();
         accelerometerAdapter.stopSensor();
         thread.close();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
